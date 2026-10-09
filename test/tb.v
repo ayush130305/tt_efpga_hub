@@ -27,8 +27,8 @@ module tb ();
   wire VGND = 1'b0;
 `endif
 
-  // Replace tt_um_example with your module name:
-  tt_um_example user_project (
+  // Top module of this project:
+  tt_um_ayush130305_efpga_hub user_project (
 
       // Include power ports for the Gate Level test:
 `ifdef GL_TEST

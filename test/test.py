@@ -13,7 +13,7 @@ from cfgimage import Fabric
 
 CLK_NS = 40                  # 25 MHz, matches clock_hz in info.yaml
 BIT_CLKS = 217               # 25 MHz / 115200 baud, same rounding as uart_rx / uart_tx
-NC = 16                      # must match NC in src/project.v
+NC = 12                      # must match NC in src/project.v
 
 # uio_in bit positions
 CFG_DATA, CFG_CLK, SDA_IN = 0, 1, 7
@@ -313,7 +313,7 @@ async def test_06_divider_hard_block(dut):
 
 @cocotb.test()
 async def test_07_crc_hard_block(dut):
-    """crc8 (poly 0x07) fed from a pin through cell 3; MSB on uo_out[6] must match a Python model."""
+    """crc8 (poly 0x07) fed from a pin through cell 3; MSB on uo_out[5] must match a Python model."""
     pins = await start(dut)
     fab = Fabric(NC)
     poly = 0x07
@@ -322,14 +322,14 @@ async def test_07_crc_hard_block(dut):
     fab.set_sink(4, fab.cell(3))
     fab.set_sink(5, fab.cell(7))
     fab.set_crc_poly(poly)
-    fab.set_out(5, fab.hb(2))
+    fab.set_out(4, fab.hb(2))
     await configure(dut, pins, fab)
     rng = random.Random(7)
     crc, q3, q7 = 0, 0, 0
     for n in range(48):
         await FallingEdge(dut.clk)
         # state seen here includes every rising edge so far
-        assert int(bit(dut.uo_out, 6)) == (crc >> 7) & 1, f"crc msb mismatch at cycle {n}"
+        assert int(bit(dut.uo_out, 5)) == (crc >> 7) & 1, f"crc msb mismatch at cycle {n}"
         d = rng.getrandbits(1)
         pins.set_ui(4, d)
         # model the next rising edge: it uses the registered values from before it

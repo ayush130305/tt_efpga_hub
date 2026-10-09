@@ -26,10 +26,10 @@ module tt_um_ayush130305_efpga_hub (
     localparam integer BAUD_RATE = 115_200;
     localparam integer SCLK_FREQ = 1_000_000;
     localparam integer SCL_FREQ  = 100_000;
-    // Shared SPI/I2C buffer depth in bytes (16 = full protocol, see README).
-    localparam integer BUF_DEPTH = 16;
+    // Shared SPI/I2C buffer depth in bytes (8: transactions up to 8 bytes, see README).
+    localparam integer BUF_DEPTH = 8;
     // Fabric size.
-    localparam integer NC        = 16;
+    localparam integer NC        = 12;
 
     // The hub blocks use an active-high reset.
     wire rst = ~rst_n;

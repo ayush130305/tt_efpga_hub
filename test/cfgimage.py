@@ -17,7 +17,7 @@ class Fabric:
     NOUT = 7
     NSINK = 7
 
-    def __init__(self, nc=16, w=8, wo=8):
+    def __init__(self, nc=12, w=8, wo=8):
         self.nc = nc
         self.cb = 2 + self.NI
         self.ns = self.cb + nc + self.NH
